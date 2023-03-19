@@ -9,18 +9,10 @@ import { getFilter } from 'redux/selectors';
 import { BsTelephone } from 'react-icons/bs';
 import { IoIosContact } from 'react-icons/io';
 
-export const ContactsList = ({ contact }) => {
+export const ContactsList = ({ id, name, phone }) => {
   const { data, error, isLoading } = useGetContactsQuery();
   const { filter } = useSelector(getFilter);
   const [deleteContact] = useDeleteContactMutation();
-
-  if (!data) {
-    return null;
-  }
-  const visibleContacts = data.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
   const handleDelete = async contact => {
     try {
       await deleteContact(contact.id);
@@ -29,10 +21,16 @@ export const ContactsList = ({ contact }) => {
       alert('Something wrong. Please, try again');
     }
   };
+  if (!data) {
+    return null;
+  }
+  const visibleContacts = data.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <div>
-      {!error && isLoading && <div>Loading</div>}
+      {!error && isLoading && <div>Loading...</div>}
       <List>
         {visibleContacts.map(({ id, name, phone }) => (
           <li key={id}>

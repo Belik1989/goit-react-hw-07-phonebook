@@ -1,5 +1,4 @@
 import { BsJournalBookmark } from 'react-icons/bs';
-// import { MdNotListedLocation } from 'react-icons/md';
 
 import { PhoneBook } from './PhoneBook/PhoneBook';
 import { MainTitle } from './PhoneBook/PhoneBook.styled';
@@ -8,11 +7,9 @@ import {
   ContactsTitle,
   ContactsSection,
   ContactsNumbers,
-  // NoContactsSpan,
 } from './ContactsList/ContactsList.styled';
 import { Filter } from './Filter/Filter';
 
-// import { useGetContactsQuery } from 'redux/contactsSlice';
 import { FormSection, PhoneBookBody } from './PhoneBook/PhoneBook.styled';
 
 const App = () => {
