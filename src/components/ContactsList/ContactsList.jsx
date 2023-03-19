@@ -1,45 +1,58 @@
 import PropTypes from 'prop-types';
 import { List, ButtonDelete } from './ContactsList.styled';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+import {
+  useDeleteContactMutation,
+  useGetContactsQuery,
+} from 'redux/contactsSlice.js';
 import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
+import { getFilter } from 'redux/selectors';
 import { BsTelephone } from 'react-icons/bs';
 import { IoIosContact } from 'react-icons/io';
 
-export function ContactsList({ contact }) {
-  const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+export const ContactsList = ({ contact }) => {
+  const { data, error, isLoading } = useGetContactsQuery();
   const { filter } = useSelector(getFilter);
+  const [deleteContact] = useDeleteContactMutation();
 
-  if (!contacts) {
+  if (!data) {
     return null;
   }
-  const visibleContacts = contacts.contacts.filter(contact =>
+  const visibleContacts = data.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
-  const handleDelete = () => dispatch(deleteContact());
+
+  const handleDelete = async contact => {
+    try {
+      await deleteContact(contact.id);
+      alert('Contact was delete from your phonebook');
+    } catch (e) {
+      alert('Something wrong. Please, try again');
+    }
+  };
 
   return (
-    <List>
-      {visibleContacts.map(({ id, name, number }) => (
-        <li key={id}>
-          <ButtonDelete onClick={handleDelete} type="button">
-            Delete
-          </ButtonDelete>
-          <span>
-            <IoIosContact />
-            {name}
-          </span>
-          <p>
-            <BsTelephone />
-            {number}
-          </p>
-        </li>
-      ))}
-    </List>
+    <div>
+      {!error && isLoading && <div>Loading</div>}
+      <List>
+        {visibleContacts.map(({ id, name, phone }) => (
+          <li key={id}>
+            <ButtonDelete onClick={handleDelete} type="button">
+              Delete
+            </ButtonDelete>
+            <span>
+              <IoIosContact />
+              {name}
+            </span>
+            <p>
+              <BsTelephone />
+              {phone}
+            </p>
+          </li>
+        ))}
+      </List>
+    </div>
   );
-}
+};
 
 ContactsList.propTypes = {
   contact: PropTypes.object,
@@ -47,7 +60,7 @@ ContactsList.propTypes = {
     PropTypes.exact({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
     })
   ),
 };

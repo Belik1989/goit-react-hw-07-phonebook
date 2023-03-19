@@ -18,10 +18,12 @@ export const Filter = () => {
       <label>
         <SearchInput
           label="filter"
-          variant="outlined"
+          // variant="outlined"
           placeholder="Find contacts"
           type="text"
+          autoComplete="off"
           onChange={handleChange}
+          name="name"
         ></SearchInput>
       </label>
     </SearchBox>
