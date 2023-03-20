@@ -17,6 +17,7 @@ export const ContactsList = ({ id, name, phone }) => {
     try {
       await deleteContact(contact.id);
       alert('Contact was delete from your phonebook');
+      return data;
     } catch (e) {
       alert('Something wrong. Please, try again');
     }
@@ -34,7 +35,7 @@ export const ContactsList = ({ id, name, phone }) => {
       <List>
         {visibleContacts.map(({ id, name, phone }) => (
           <li key={id}>
-            <ButtonDelete onClick={handleDelete} type="button">
+            <ButtonDelete onClick={() => handleDelete({ id })} type="button">
               Delete
             </ButtonDelete>
             <span>
