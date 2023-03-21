@@ -17,8 +17,7 @@ export const ContactsList = ({ id, name, phone }) => {
     try {
       await deleteContact(contact.id);
       alert('Contact was delete from your phonebook');
-      return data;
-    } catch (e) {
+         } catch (e) {
       alert('Something wrong. Please, try again');
     }
   };
