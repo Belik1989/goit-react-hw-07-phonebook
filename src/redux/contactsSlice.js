@@ -5,7 +5,7 @@ export const contactsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://6416662e31736f91ae8e1456.mockapi.io/contactsApi',
   }),
-tagTypes: ['Contacts'],
+  tagTypes: ['Contacts'],
   endpoints: builder => ({
     getContacts: builder.query({
       query: () => ({
@@ -16,7 +16,7 @@ tagTypes: ['Contacts'],
     }),
 
     addContact: builder.mutation({
-      query: value => ({
+      query: ({ name, phone }) => ({
         url: '/contacts',
         method: 'POST',
         body: { name, phone },
